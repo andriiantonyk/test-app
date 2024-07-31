@@ -1,0 +1,36 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewData["Title"] = "View Log File";
+    int lineNumber = ViewBag.LineNumber;
+    string filePath = ViewBag.FilePath;
+}
+
+<h1>Viewing Log File: @filePath</h1>
+
+<div class="log-file">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var line = Model.ElementAt(i);
+        <div class="log-line @(i + 1 == lineNumber ? "highlight" : "")">
+            <span class="line-number">@i + 1</span>
+            <span class="line-content">@line</span>
+        </div>
+    }
+</div>
+
+<style>
+    .log-file {
+        font-family: monospace;
+    }
+    .log-line {
+        white-space: pre;
+    }
+    .highlight {
+        background-color: yellow;
+    }
+    .line-number {
+        width: 50px;
+        display: inline-block;
+    }
+</style>

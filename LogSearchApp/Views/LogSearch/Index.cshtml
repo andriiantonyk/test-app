@@ -1,0 +1,36 @@
+﻿@using LogSearchConsole
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model string
+
+@{
+    ViewData["Title"] = "Log Search";
+}
+
+<h1>Log Search</h1>
+
+<form asp-action="Search" method="post">
+    <div class="form-group">
+        <label for="pattern">Search Pattern:</label>
+        <input type="text" class="form-control" id="pattern" name="pattern" value="@Model" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Results != null)
+{
+    <h2>Results</h2>
+    <ul class="list-group">
+        @foreach (var result in ViewBag.Results as IEnumerable<LogSearchResult>)
+        {
+            <li class="list-group-item">
+                @result.LineContent
+                <a href="@Url.Action("ViewLogFile", new { filePath = result.FilePath, lineNumber = result.LineNumber })" class="btn btn-link">View in file</a>
+            </li>
+        }
+    </ul>
+}
